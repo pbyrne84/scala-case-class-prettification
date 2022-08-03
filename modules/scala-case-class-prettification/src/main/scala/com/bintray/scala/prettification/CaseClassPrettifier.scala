@@ -6,8 +6,6 @@ import scala.reflect.runtime.currentMirror
 object CaseClassPrettifier {
   private type ImmutableSeq[+A] = scala.collection.immutable.Seq[A]
   implicit class StringExtension(s: String) {
-    def lowerFirstChar: String =
-      s.substring(0, 1).toLowerCase + s.substring(1)
 
     def leftIndent(size: Int): String = {
       val padding = " ".padTo(size, " ").mkString
