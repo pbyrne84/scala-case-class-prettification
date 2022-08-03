@@ -1,6 +1,7 @@
 package com.bintray.scala.prettification
 
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
 case class SinglePrimitive(fieldName1: Int)
 case class ListOfPrimitives(fieldName1: List[Int])
@@ -10,7 +11,7 @@ case class NestedOptionalCaseClass(fieldName1: Int, fieldName2: Option[SinglePri
 case class NestedOptionalInt(fieldName1: Int, fieldName2: Option[Int])
 case class NestedMultiLevel(fieldName1: Int, fieldName2: NestedBasic)
 
-class CaseClassPrettifierTest extends WordSpec with Matchers {
+class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
 
   "GenericPrettifier" should {
 
