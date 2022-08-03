@@ -1,7 +1,6 @@
 package com.bintray.scala.prettification
 
 import scala.annotation.tailrec
-import scala.reflect.runtime.currentMirror
 
 object CaseClassPrettifier {
   private type ImmutableSeq[+A] = scala.collection.immutable.Seq[A]
@@ -46,11 +45,10 @@ object CaseClassPrettifier {
     if (v == null) {
       false
     } else {
-      import reflect.runtime.universe._
-      val typeMirror = runtimeMirror(v.getClass.getClassLoader)
-      val instanceMirror = typeMirror.reflect(v)
-      val symbol = instanceMirror.symbol
-      symbol.isCaseClass
+      v match {
+        case _: Product => true
+        case _ => false
+      }
     }
   }
 
@@ -64,6 +62,7 @@ object CaseClassPrettifier {
   }
 
   private def analyze[A](clazz: Class[A]): (String, List[String]) = {
+    import scala.reflect.runtime.currentMirror
     val symbol = currentMirror.classSymbol(clazz)
     val primaryConstructor = symbol.primaryConstructor
     val signature = primaryConstructor.typeSignature
