@@ -61,16 +61,14 @@ object CaseClassPrettifier {
     }
   }
 
-  private def analyze[A](clazz: Class[A]): (String, List[String]) = {
-    import scala.reflect.runtime.currentMirror
-    val symbol = currentMirror.classSymbol(clazz)
-    val primaryConstructor = symbol.primaryConstructor
-    val signature = primaryConstructor.typeSignature
+  private def analyze(item: Product): (String, List[String]) = {
+    val clazz = item.getClass
+    val product = item
 
     val classNameWithoutPackage: String =
       clazz.getName.replaceAll("(.*)\\.", "")
 
-    classNameWithoutPackage -> signature.paramLists.head.map(_.name.toString)
+    classNameWithoutPackage -> product.productElementNames.toList
   }
 
 }
@@ -123,8 +121,8 @@ class CaseClassPrettifier {
 
   private def prettifySingleItem(item: Any) = {
     if (CaseClassPrettifier.classIsAnyCaseClass(item)) {
-      val anaylzedResult = analyze(item.getClass)
-      val fields = anaylzedResult._2
+      val analyzedResult = analyze(item.asInstanceOf[Product])
+      val fields = analyzedResult._2
         .filter(!_.contains("$"))
 
       @tailrec
@@ -146,7 +144,7 @@ class CaseClassPrettifier {
       val body = iterateFields(fields)
         .mkString(",\n")
 
-      anaylzedResult._1 +
+      analyzedResult._1 +
         s"""(
            |${body.leftIndent(2)}
            |)""".stripMargin

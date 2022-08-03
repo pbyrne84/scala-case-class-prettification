@@ -2,20 +2,13 @@ lazy val baseName = "scala-case-class-prettification"
 
 version := "0.1"
 
-val allScalaVersion = "2.13.8"
+val allScalaVersion = "3.1.3"
 scalaVersion := allScalaVersion
 
-scalafmtVersion in ThisBuild := "1.3.0"
-
-scalafmtTestOnCompile in ThisBuild := true
-
-//Set ttl of snapshots so they always refresh
-coursierTtl := None
 lazy val base = (project in file("modules/" + baseName)).settings(
   name := baseName,
   scalaVersion := allScalaVersion,
   libraryDependencies ++= Vector(
-    "org.scala-lang" % "scala-reflect" % allScalaVersion,
     scalaTest % Test
   )
 )
