@@ -65,7 +65,7 @@ object IdeaDiff {
     //deleteOnExit ruins the option to view a single file as idea will detect it is deleted
     //before viewing.
     val tempDir: Path = Paths.get(System.getProperty("java.io.tmpdir"))
-    val file = new File(tempDir.toAbsolutePath + s"/diff_$index.$ext")
+    val file = new File(tempDir.toAbsolutePath.toString + s"/diff_$index.$ext")
 
     new PrintWriter(file) {
       try {

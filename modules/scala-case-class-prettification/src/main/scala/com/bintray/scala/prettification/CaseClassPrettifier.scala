@@ -20,8 +20,7 @@ object CaseClassPrettifier {
   }
 
   def shouldBeUsedInTestMatching(v: Any): Boolean = {
-    CaseClassPrettifier.classIsNonIterableCaseClass(v) || CaseClassPrettifier
-      .classIsIteratorContainingCaseClasses(v)
+    classIsNonIterableProduct(v) || classIsIteratorContainingCaseClasses(v)
   }
 
   /**
@@ -29,36 +28,28 @@ object CaseClassPrettifier {
     * @param v
     * @return
     */
-  private def classIsNonIterableCaseClass(v: Any): Boolean = {
-    if (v == null) {
-      false
-    } else {
-      v match {
-        case _: Iterable[_] => false
-        case _ =>
-          classIsAnyCaseClass(v)
-      }
+  private def classIsNonIterableProduct(v: Any): Boolean = {
+    Option(v).exists {
+      case _: Iterable[_] =>
+        false
+      case _ =>
+        classIsProduct(v)
     }
   }
 
-  private def classIsAnyCaseClass(v: Any): Boolean = {
-    if (v == null) {
-      false
-    } else {
-      v match {
-        case _: Product => true
-        case _ => false
-      }
-    }
+  private def classIsProduct(v: Any): Boolean = {
+    classAsMaybeProduct(v).isDefined
+  }
+
+  private def classAsMaybeProduct(v: Any): Option[Product] = {
+    Option(v).collect { case v: Product => v }
   }
 
   def classIsIteratorContainingCaseClasses(v: Any): Boolean = {
-    v match {
-      case iterable: Iterable[_]
-          if iterable.nonEmpty && classIsNonIterableCaseClass(iterable.head) =>
+    Option(v).collect {
+      case iterable: Iterable[_] if iterable.nonEmpty && classIsNonIterableProduct(iterable.head) =>
         true
-      case _ => false
-    }
+    }.isDefined
   }
 
   private def analyze(item: Product): (String, List[String]) = {
@@ -120,37 +111,37 @@ class CaseClassPrettifier {
   }
 
   private def prettifySingleItem(item: Any) = {
-    if (CaseClassPrettifier.classIsAnyCaseClass(item)) {
-      val analyzedResult = analyze(item.asInstanceOf[Product])
-      val fields = analyzedResult._2
-        .filter(!_.contains("$"))
+    @tailrec
+    def iterateFields(remaingFields: List[String], result: List[String] = List()): List[String] = {
+      remaingFields match {
+        case head :: tail =>
+          val method = item.getClass.getDeclaredField(head)
+          method.setAccessible(true)
+          val value: AnyRef = method.get(item)
+          val convertedField = convertSingleFieldValue(head, value)
+          iterateFields(tail, result :+ convertedField)
 
-      @tailrec
-      def iterateFields(remaingFields: List[String],
-                        result: List[String] = List()): List[String] = {
-        remaingFields match {
-          case head :: tail =>
-            val method = item.getClass.getDeclaredField(head)
-            method.setAccessible(true)
-            val value: AnyRef = method.get(item)
-            val convertedField = convertSingleFieldValue(head, value)
-            iterateFields(tail, result :+ convertedField)
-
-          case _ =>
-            result
-        }
+        case _ =>
+          result
       }
-
-      val body = iterateFields(fields)
-        .mkString(",\n")
-
-      analyzedResult._1 +
-        s"""(
-           |${body.leftIndent(2)}
-           |)""".stripMargin
-    } else {
-      convertSimple(item)
     }
+
+    classAsMaybeProduct(item)
+      .map {
+        case product: Product =>
+          val analyzedResult = analyze(product)
+          val fields = analyzedResult._2
+            .filter(!_.contains("$"))
+
+          val body = iterateFields(fields)
+            .mkString(",\n")
+
+          analyzedResult._1 +
+            s"""(
+             |${body.leftIndent(2)}
+             |)""".stripMargin
+      }
+      .getOrElse(convertSimple(item))
   }
 
   private def convertSimple(value: Any): String = value match {
@@ -171,7 +162,7 @@ class CaseClassPrettifier {
       case None =>
         wrapInField("None")
 
-      case Some(optionValue: AnyRef) if CaseClassPrettifier.classIsAnyCaseClass(optionValue) =>
+      case Some(optionValue: AnyRef) if CaseClassPrettifier.classIsProduct(optionValue) =>
         wrapInField(s"""
                        |Some(
                        |${prettify(optionValue).leftIndent(2)}
@@ -183,7 +174,7 @@ class CaseClassPrettifier {
                        |Some(${value.toString})
             """.stripMargin.trim)
 
-      case _ if CaseClassPrettifier.classIsAnyCaseClass(value) =>
+      case _ if CaseClassPrettifier.classIsProduct(value) =>
         wrapInField(prettify(value))
 
       case _ => wrapInField(convertSimple(value))
