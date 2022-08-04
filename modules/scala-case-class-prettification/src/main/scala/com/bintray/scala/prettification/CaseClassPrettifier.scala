@@ -5,7 +5,6 @@ import scala.collection.mutable
 import scala.reflect.ClassTag
 
 object CaseClassPrettifier {
-  private type ImmutableSeq[+A] = scala.collection.immutable.Seq[A]
   implicit class StringExtension(s: String) {
 
     def leftIndent(size: Int): String = {
@@ -115,7 +114,6 @@ class CaseClassPrettifier {
     iterable match {
       case _: List[_] => "List"
       case _: Vector[_] => "Vector"
-      case _: ImmutableSeq[_] => "immutable.Seq"
       case _: Seq[_] => "Seq"
       case _: mutable.ArraySeq[_] => "mutable.ArraySeq"
       case _: mutable.Seq[_] => "mutable.Seq"
