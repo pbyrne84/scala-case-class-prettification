@@ -127,17 +127,16 @@ class CaseClassPrettifier {
     }
 
     classAsMaybeProduct(item)
-      .map {
-        case product: Product =>
-          val analyzedResult = analyze(product)
-          val fields = analyzedResult._2
-            .filter(!_.contains("$"))
+      .map { (product: Product) =>
+        val analyzedResult = analyze(product)
+        val fields = analyzedResult._2
+          .filter(!_.contains("$"))
 
-          val body = iterateFields(fields)
-            .mkString(",\n")
+        val body = iterateFields(fields)
+          .mkString(",\n")
 
-          analyzedResult._1 +
-            s"""(
+        analyzedResult._1 +
+          s"""(
              |${body.leftIndent(2)}
              |)""".stripMargin
       }
