@@ -3,6 +3,8 @@ package com.bintray.scala.prettification
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
+import scala.collection.mutable
+
 case class SinglePrimitive(fieldName1: Int)
 case class ListOfPrimitives(fieldName1: List[Int])
 case class MultiBasic(fieldName1: Int, fieldName2: String)
@@ -38,6 +40,39 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
       prettifier.prettify(List(4, 5, 6)) shouldBe
         """
           |List(
+          |  4,
+          |  5,
+          |  6
+          |)
+        """.stripMargin.trim
+    }
+
+    "format a vector with multiple items" in {
+      prettifier.prettify(Vector(4, 5, 6)) shouldBe
+        """
+          |Vector(
+          |  4,
+          |  5,
+          |  6
+          |)
+        """.stripMargin.trim
+    }
+
+    "format an mutable array with multiple items" in {
+      prettifier.prettify(Array(4, 5, 6)) shouldBe
+        """
+          |mutable.ArraySeq(
+          |  4,
+          |  5,
+          |  6
+          |)
+        """.stripMargin.trim
+    }
+
+    "format an mutable seq with multiple items" in {
+      prettifier.prettify(mutable.Seq(4, 5, 6)) shouldBe
+        """
+          |mutable.Seq(
           |  4,
           |  5,
           |  6

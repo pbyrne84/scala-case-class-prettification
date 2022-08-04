@@ -1,6 +1,8 @@
 package com.bintray.scala.prettification
 
 import scala.annotation.tailrec
+import scala.collection.mutable
+import scala.reflect.ClassTag
 
 object CaseClassPrettifier {
   private type ImmutableSeq[+A] = scala.collection.immutable.Seq[A]
@@ -73,13 +75,23 @@ class CaseClassPrettifier {
   }
 
   def prettify(instance: AnyRef): String = {
+
+    def prettifyCollection(className: String, instances: Iterable[_]): String = {
+      s"""
+         |${className}(
+         |${prettifyRecursive("", instances.toList).leftIndent(2)}
+         |)
+         |""".stripMargin.trim
+
+    }
+
     instance match {
+      //Scala being kooky, Array is passable as Iterable but not matchable as iterable, probably casts on pass
       case instances: Iterable[_] =>
-        s"""
-           |${matchToIterableType(instances)}(
-           |${prettifyRecursive("", instances.toList).leftIndent(2)}
-           |)
-           |""".stripMargin.trim
+        prettifyCollection(matchToIterableType(instances), instances)
+
+      case instances: Array[_] =>
+        prettifyCollection(matchToIterableType(instances), instances)
 
       case _ => prettifyRecursive("", List(instance))
     }
@@ -99,15 +111,16 @@ class CaseClassPrettifier {
     }
   }
 
-  private def matchToIterableType(iterable: Iterable[_]) = {
+  private def matchToIterableType(iterable: Iterable[_]): String = {
     iterable match {
       case _: List[_] => "List"
       case _: Vector[_] => "Vector"
       case _: ImmutableSeq[_] => "immutable.Seq"
       case _: Seq[_] => "Seq"
+      case _: mutable.ArraySeq[_] => "mutable.ArraySeq"
+      case _: mutable.Seq[_] => "mutable.Seq"
       case _ => "Iterable"
     }
-
   }
 
   private def prettifySingleItem(item: Any) = {
