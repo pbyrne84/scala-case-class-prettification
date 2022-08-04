@@ -162,6 +162,25 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
         """.stripMargin.trim
     }
 
+    "handle a list of tuples" in {
+      val result =
+        prettifier.prettify(List("a" -> 2, "b" -> "44"))
+
+      result shouldBe
+        """
+          |List(
+          |  Tuple2(
+          |    _1 = "a",
+          |    _2 = 2
+          |  ),
+          |  Tuple2(
+          |    _1 = "b",
+          |    _2 = "44"
+          |  )
+          |)
+        """.stripMargin.trim
+    }
+
   }
 
 }
