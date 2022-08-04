@@ -144,7 +144,7 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
         """.stripMargin.trim
     }
 
-    "handle mutli level indentation" in {
+    "handle multi level indentation" in {
       val result =
         prettifier.prettify(NestedMultiLevel(4, NestedBasic(4, SinglePrimitive(4))))
 
