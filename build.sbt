@@ -30,7 +30,7 @@ lazy val test = (project in file("modules/" + baseName + "-test"))
     )
   )
 
-lazy val all = (project in file("."))
+lazy val caseClassPrettificationAll = (project in file("."))
   .aggregate(base, diff, test)
   .settings(
     scalaVersion := allScalaVersion,
