@@ -24,8 +24,7 @@ object CaseClassPrettifier {
     classIsNonIterableProduct(v) || classIsIteratorContainingCaseClasses(v)
   }
 
-  /**
-    * Collections are case classes
+  /** Collections are case classes
     * @param v
     * @return
     */
@@ -43,7 +42,10 @@ object CaseClassPrettifier {
   }
 
   private def classAsMaybeProduct(v: Any): Option[Product] = {
-    Option(v).collect { case v: Product => v }
+    v match {
+      case vAsProduct: Product => Some(vAsProduct)
+      case _ => None
+    }
   }
 
   def classIsIteratorContainingCaseClasses(v: Any): Boolean = {
@@ -85,7 +87,7 @@ class CaseClassPrettifier {
     }
 
     instance match {
-      //Scala being kooky, Array is passable as Iterable but not matchable as iterable, probably casts on pass
+      // Scala being kooky, Array is passable as Iterable but not matchable as iterable, probably casts on pass
       case instances: Iterable[_] =>
         prettifyCollection(matchToIterableType(instances), instances)
 

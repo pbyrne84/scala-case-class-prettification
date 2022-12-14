@@ -7,16 +7,14 @@ import com.bintray.scala.prettification.CaseClassPrettifier
 
 import scala.language.postfixOps
 
-/**
-  * When running feature files the diff on error is useless compared to scalatest equivalent (click diff view in intellij)
-  * Call one of the following methods prior to failing assertion to see the
+/** When running feature files the diff on error is useless compared to scalatest equivalent (click
+  * diff view in intellij) Call one of the following methods prior to failing assertion to see the
   * expectancy within intellij.
   *
   * https://www.jetbrains.com/help/idea/running-the-ide-as-a-diff-or-merge-command-line-tool.html
   *
-  * You will need to install the idea shell script
-  * (section of "To enable invoking IntelliJ IDEA operations from the command line, follow these steps")
-  *
+  * You will need to install the idea shell script (section of "To enable invoking IntelliJ IDEA
+  * operations from the command line, follow these steps")
   */
 object IdeaDiff {
   private val prettifier = new CaseClassPrettifier
@@ -37,15 +35,13 @@ object IdeaDiff {
     command !
   }
 
-  /**
-    * use this one for classes as it will humanify case classes
+  /** use this one for classes as it will humanify case classes
     */
   def diffClass(output1: AnyRef, output2: AnyRef): Unit = {
     diffText(prettifier.prettify(output1), prettifier.prettify(output2), "txt")
   }
 
-  /**
-    * Use this one for any text
+  /** Use this one for any text
     */
   def diffText(output1: String, output2: String, ext: String = "json"): Unit = {
     val tempFile1 = createTempFile(output1, ext, 1)
@@ -61,9 +57,9 @@ object IdeaDiff {
   }
 
   private def createTempFile(contents: String, ext: String, index: Int): File = {
-    //can use create temp file without auto delete but that creates many temp files
-    //deleteOnExit ruins the option to view a single file as idea will detect it is deleted
-    //before viewing.
+    // can use create temp file without auto delete but that creates many temp files
+    // deleteOnExit ruins the option to view a single file as idea will detect it is deleted
+    // before viewing.
     val tempDir: Path = Paths.get(System.getProperty("java.io.tmpdir"))
     val file = new File(tempDir.toAbsolutePath.toString + s"/diff_$index.$ext")
 
