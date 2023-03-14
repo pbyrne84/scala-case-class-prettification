@@ -1,20 +1,18 @@
 package com.bintray.scala.prettification.diff
 
-import java.io.{File, PrintWriter}
-import java.nio.file.{Path, Paths}
-
 import com.bintray.scala.prettification.CaseClassPrettifier
 
+import java.io.{File, PrintWriter}
+import java.nio.file.{Path, Paths}
 import scala.language.postfixOps
 
-/** When running feature files the diff on error is useless compared to scalatest equivalent (click
-  * diff view in intellij) Call one of the following methods prior to failing assertion to see the
-  * expectancy within intellij.
+/** When running feature files the diff on error is useless compared to scalatest equivalent (click diff view in
+  * intellij) Call one of the following methods prior to failing assertion to see the expectancy within intellij.
   *
   * https://www.jetbrains.com/help/idea/running-the-ide-as-a-diff-or-merge-command-line-tool.html
   *
-  * You will need to install the idea shell script (section of "To enable invoking IntelliJ IDEA
-  * operations from the command line, follow these steps")
+  * You will need to install the idea shell script (section of "To enable invoking IntelliJ IDEA operations from the
+  * command line, follow these steps")
   */
 object IdeaDiff {
   private val prettifier = new CaseClassPrettifier
