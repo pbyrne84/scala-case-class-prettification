@@ -48,7 +48,7 @@ object CaseClassPrettifier {
     }
   }
 
-  def classIsIteratorContainingCaseClasses(v: Any): Boolean = {
+  private def classIsIteratorContainingCaseClasses(v: Any): Boolean = {
     Option(v).collect {
       case iterable: Iterable[_] if iterable.nonEmpty && classIsNonIterableProduct(iterable.head) =>
         true
