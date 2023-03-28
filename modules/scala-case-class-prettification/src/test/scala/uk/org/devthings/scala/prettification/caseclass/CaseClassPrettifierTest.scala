@@ -1,4 +1,4 @@
-package com.bintray.scala.prettification
+package uk.org.devthings.scala.prettification.caseclass
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec

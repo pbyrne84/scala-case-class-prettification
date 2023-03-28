@@ -7,7 +7,7 @@ a working example it is much easier to spot which field mismatched in test failu
 
 e.g
 ```scala
-import com.bintray.scala.prettification.CaseClassPrettifier
+import uk.org.devthings.scala.prettification.caseclass.CaseClassPrettifier
 import org.scalactic.Prettifier
 
 object Prettifiers {

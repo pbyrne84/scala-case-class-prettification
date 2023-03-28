@@ -1,8 +1,7 @@
-package com.bintray.scala.prettification
+package uk.org.devthings.scala.prettification.caseclass
 
 import scala.annotation.tailrec
 import scala.collection.mutable
-import scala.reflect.ClassTag
 
 object CaseClassPrettifier {
   implicit class StringExtension(s: String) {

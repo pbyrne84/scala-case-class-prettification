@@ -1,7 +1,7 @@
-package com.bintray.scala.prettification.scalatest
+package uk.org.devthings.scala.prettification.caseclass.scalatest
 
-import com.bintray.scala.prettification.CaseClassPrettifier
 import org.scalactic.Prettifier
+import uk.org.devthings.scala.prettification.caseclass.CaseClassPrettifier
 
 object Prettifiers {
   val caseClassPrettifier: CaseClassPrettifier = new CaseClassPrettifier
