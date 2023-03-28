@@ -1,6 +1,6 @@
-package com.bintray.scala.prettification.diff
+package uk.org.devthings.scala.prettification.diff
 
-import com.bintray.scala.prettification.CaseClassPrettifier
+import uk.org.devthings.scala.prettification.caseclass.CaseClassPrettifier
 
 import java.io.{File, PrintWriter}
 import java.nio.file.{Path, Paths}

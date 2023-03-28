@@ -4,7 +4,8 @@ version := "0.1"
 
 val scala3Version = "3.1.3"
 val scala213Version = "2.13.8"
-lazy val supportedScalaVersions = List(scala3Version, scala213Version)
+val scala212Version = "2.12.17"
+lazy val supportedScalaVersions = List(scala3Version, scala213Version, scala212Version)
 
 scalaVersion := scala3Version
 
@@ -26,7 +27,7 @@ lazy val commonSettings = Seq(
     "-unchecked"
   ) ++
     (CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, _)) => Seq("-Ytasty-reader") // flags only needed in Scala 2
+      case Some((2, 13)) => Seq("-Ytasty-reader") // flags only needed in Scala 2
       case Some((3, _)) => Seq("-no-indent") // flags only needed in Scala 3
       case _ => Seq.empty
     }),
