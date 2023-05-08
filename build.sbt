@@ -9,6 +9,27 @@ lazy val supportedScalaVersions = List(scala3Version, scala213Version, scala212V
 
 scalaVersion := scala3Version
 
+ThisBuild / sonatypeCredentialHost := "s01.oss.sonatype.org"
+sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
+publishMavenStyle := true
+
+inThisBuild(
+  List(
+    organization := "uk.org.devthings",
+    homepage := Some(url("https://github.com/sbt/sbt-ci-release")),
+    // Alternatively License.Apache2 see https://github.com/sbt/librarymanagement/blob/develop/core/src/main/scala/sbt/librarymanagement/License.scala
+    licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+    developers := List(
+      Developer(
+        "pbyrne84",
+        "Patrick Byrne",
+        "pbyrne84@gmail.com",
+        url("https://devthings.org.uk/")
+      )
+    )
+  )
+)
+
 //not to be used in ci, intellij has got a bit bumpy in the format on save on optimize imports across the project
 val formatAndTest =
   taskKey[Unit](
