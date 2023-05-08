@@ -3,7 +3,7 @@ lazy val baseName = "scala-case-class-prettification"
 version := "0.1"
 
 val scala3Version = "3.1.3"
-val scala213Version = "2.13.8"
+val scala213Version = "2.13.10"
 // val scala212Version = "2.12.17"
 lazy val supportedScalaVersions = List(scala3Version, scala213Version)
 
@@ -16,7 +16,7 @@ publishMavenStyle := true
 inThisBuild(
   List(
     organization := "uk.org.devthings",
-    homepage := Some(url("https://github.com/sbt/sbt-ci-release")),
+    homepage := Some(url("https://github.com/pbyrne84/scala-case-class-prettification")),
     // Alternatively License.Apache2 see https://github.com/sbt/librarymanagement/blob/develop/core/src/main/scala/sbt/librarymanagement/License.scala
     licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
     developers := List(
