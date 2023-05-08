@@ -4,8 +4,8 @@ version := "0.1"
 
 val scala3Version = "3.1.3"
 val scala213Version = "2.13.8"
-val scala212Version = "2.12.17"
-lazy val supportedScalaVersions = List(scala3Version, scala213Version, scala212Version)
+// val scala212Version = "2.12.17"
+lazy val supportedScalaVersions = List(scala3Version, scala213Version)
 
 scalaVersion := scala3Version
 
