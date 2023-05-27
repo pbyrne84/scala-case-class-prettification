@@ -31,7 +31,7 @@ Now is more friendly on failure.
 
 Examples are in the test cases
 
-[CaseClassPrettifierTest](modules/scala-case-class-prettification/src/test/scala/com/bintray/scala/prettification/CaseClassPrettifierTest.scala)
+[CaseClassPrettifierTest](https://github.com/pbyrne84/scala-case-class-prettification/blob/master/modules/scala-case-class-prettification/src/test/scala/uk/org/devthings/scala/prettification/caseclass/CaseClassPrettifierTest.scala)
 
 It doesn't try to format too clever as the format needs to be the same across comparisons whatever the values.
 
