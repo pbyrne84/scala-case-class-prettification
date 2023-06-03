@@ -18,6 +18,14 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
   "GenericPrettifier" should {
 
     val prettifier = new CaseClassPrettifier()
+
+    "handle a null safely for badly behaving apis" in {
+      prettifier.prettify(null) shouldBe
+        """
+          |null
+        """.stripMargin.trim
+    }
+
     "format a list with 1 item which is an int" in {
       prettifier.prettify(List(4)) shouldBe
         """

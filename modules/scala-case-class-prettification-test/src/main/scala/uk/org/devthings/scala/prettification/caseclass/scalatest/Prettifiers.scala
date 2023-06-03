@@ -7,9 +7,10 @@ object Prettifiers {
   val caseClassPrettifier: CaseClassPrettifier = new CaseClassPrettifier
 
   implicit val prettifier: Prettifier = Prettifier.apply {
-    case a: AnyRef if CaseClassPrettifier.shouldBeUsedInTestMatching(a) =>
-      caseClassPrettifier.prettify(a)
+    case anyRef: AnyRef if CaseClassPrettifier.shouldBeUsedInTestMatching(anyRef) =>
+      caseClassPrettifier.prettify(anyRef)
 
-    case a: Any => Prettifier.default(a)
+    case anythingElse =>
+      Prettifier.default(anythingElse)
   }
 }

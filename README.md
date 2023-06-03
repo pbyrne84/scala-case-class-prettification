@@ -11,11 +11,14 @@ import uk.org.devthings.scala.prettification.caseclass.CaseClassPrettifier
 import org.scalactic.Prettifier
 
 object Prettifiers {
-  implicit val prettifier: Prettifier = Prettifier.apply {
-    case a: AnyRef if CaseClassPrettifier.shouldBeUsedInTestMatching(a) =>
-      new CaseClassPrettifier().prettify(a)
+  val caseClassPrettifier: CaseClassPrettifier = new CaseClassPrettifier
 
-    case a: Any => Prettifier.default(a)
+  implicit val prettifier: Prettifier = Prettifier.apply {
+    case anyRef: AnyRef if CaseClassPrettifier.shouldBeUsedInTestMatching(anyRef) =>
+      caseClassPrettifier.prettify(anyRef)
+
+    case anythingElse =>
+      Prettifier.default(anythingElse)
   }
 }
 ```
