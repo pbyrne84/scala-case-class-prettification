@@ -1,5 +1,14 @@
 # Scala case class print prettification
 
+[![scala-case-class-prettification Scala version support](https://index.scala-lang.org/pbyrne84/scala-case-class-prettification/scala-case-class-prettification/latest.svg)](https://index.scala-lang.org/pbyrne84/scala-case-class-prettification/scala-case-class-prettification)
+
+```scala
+libraryDependencies += "uk.org.devthings" %% "scala-case-class-prettification" % "{version-from-above}"
+
+// This is pretty simple and just for scalatest
+libraryDependencies += "uk.org.devthings" %% "scala-case-class-prettification-test" % "{version-from-above}" % Test
+```
+
 A very simple dependency that prettifies case classes into a more readable format. This includes adding the field name, wrapping string in quotes and formatting in a way that keeps nested things readable.
 
 When combined with an implicit org.scalactic.Prettifier such as the one bundled in the test submodule as
