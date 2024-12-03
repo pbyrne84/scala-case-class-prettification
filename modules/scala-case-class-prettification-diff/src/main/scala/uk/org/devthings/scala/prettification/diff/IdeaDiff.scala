@@ -15,7 +15,7 @@ import scala.language.postfixOps
   * command line, follow these steps")
   */
 object IdeaDiff {
-  private val prettifier = new CaseClassPrettifier
+  private val prettifier = CaseClassPrettifier.default
 
   def viewClass(output: AnyRef): Unit = {
     viewText(prettifier.prettify(output), "txt")

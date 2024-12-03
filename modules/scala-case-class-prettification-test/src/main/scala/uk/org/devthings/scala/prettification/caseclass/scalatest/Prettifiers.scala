@@ -4,10 +4,10 @@ import org.scalactic.Prettifier
 import uk.org.devthings.scala.prettification.caseclass.CaseClassPrettifier
 
 object Prettifiers {
-  val caseClassPrettifier: CaseClassPrettifier = new CaseClassPrettifier
+  val caseClassPrettifier: CaseClassPrettifier = CaseClassPrettifier.default
 
   implicit val prettifier: Prettifier = Prettifier.apply {
-    case anyRef: AnyRef if CaseClassPrettifier.shouldBeUsedInTestMatching(anyRef) =>
+    case anyRef: AnyRef =>
       caseClassPrettifier.prettify(anyRef)
 
     case anythingElse =>
