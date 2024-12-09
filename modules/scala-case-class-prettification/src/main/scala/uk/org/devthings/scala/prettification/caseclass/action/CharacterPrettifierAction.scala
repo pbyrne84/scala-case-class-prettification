@@ -3,7 +3,7 @@ package uk.org.devthings.scala.prettification.caseclass.action
 import uk.org.devthings.scala.prettification.caseclass.CaseClassPrettifier
 
 class CharacterPrettifierAction extends PrettificationAction {
-  override def attempt(currentIndent: Int, value: Any, prettifier2: CaseClassPrettifier): Option[String] = {
+  override def attempt(value: Any, prettifier: CaseClassPrettifier): Option[String] = {
 
     value match {
       case string: String =>

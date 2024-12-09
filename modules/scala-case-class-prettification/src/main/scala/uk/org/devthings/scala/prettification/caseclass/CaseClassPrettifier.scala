@@ -45,7 +45,7 @@ class CaseClassPrettifier(prettifiers: List[PrettificationAction]) {
       currentPrettifier: PrettificationAction,
       remaining: List[PrettificationAction]
   ): String = {
-    currentPrettifier.attempt(0, value, this) match {
+    currentPrettifier.attempt(value, this) match {
       case Some(renderedOutput: String) => renderedOutput
       case None =>
         remaining match {

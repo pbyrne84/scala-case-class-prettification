@@ -4,10 +4,10 @@ import uk.org.devthings.scala.prettification.caseclass.CaseClassPrettifier
 
 class CaseClassPrettifierAction extends PrettificationAction {
 
-  override def attempt(currentIndent: Int, value: Any, prettifier2: CaseClassPrettifier): Option[String] = {
+  override def attempt(value: Any, prettifier: CaseClassPrettifier): Option[String] = {
     value match {
       case option: Some[_] =>
-        val prettifiedContents: String = createSomeResult(prettifier2, option)
+        val prettifiedContents: String = createSomeResult(prettifier, option)
 
         Some(
           s"""
@@ -22,7 +22,7 @@ class CaseClassPrettifierAction extends PrettificationAction {
         val renderedFields = for (index <- 0 until product.productArity) yield {
           val name = product.productElementName(index)
           val elementValue = product.productElement(index)
-          s"$name = ${prettifier2.prettify(elementValue)}"
+          s"$name = ${prettifier.prettify(elementValue)}"
         }
 
         Some(
