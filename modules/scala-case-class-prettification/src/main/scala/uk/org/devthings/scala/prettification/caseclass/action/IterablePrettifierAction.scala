@@ -5,7 +5,7 @@ import uk.org.devthings.scala.prettification.caseclass.CaseClassPrettifier
 import scala.collection.mutable
 
 class IterablePrettifierAction extends PrettificationAction {
-  override def attempt(currentIndent: Int, value: Any, prettifier2: CaseClassPrettifier): Option[String] = {
+  override def attempt(value: Any, prettifier: CaseClassPrettifier): Option[String] = {
 
     value match {
       case iterable: Iterable[_] =>
@@ -13,10 +13,10 @@ class IterablePrettifierAction extends PrettificationAction {
 
         val renderedItems = iterable
           .map { item =>
-            prettifier2.prettify(item)
+            prettifier.prettify(item)
           }
           .mkString(",\n")
-          .leftIndent(currentIndent + 2)
+          .leftIndent(2)
 
         Some(s"$stringType(\n$renderedItems\n)")
 
@@ -25,10 +25,10 @@ class IterablePrettifierAction extends PrettificationAction {
 
         val renderedItems = instances.toList
           .map { item =>
-            prettifier2.prettify(item)
+            prettifier.prettify(item)
           }
           .mkString(",\n")
-          .leftIndent(currentIndent + 2)
+          .leftIndent(2)
 
         Some(s"$stringType(\n$renderedItems\n)")
 

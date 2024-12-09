@@ -19,5 +19,5 @@ trait PrettificationAction {
     }
   }
 
-  def attempt(currentIndent: Int, value: Any, prettifier2: CaseClassPrettifier): Option[String]
+  def attempt(value: Any, prettifier: CaseClassPrettifier): Option[String]
 }
