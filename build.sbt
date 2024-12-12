@@ -2,7 +2,7 @@ lazy val baseName = "scala-case-class-prettification"
 
 version := "0.1"
 
-val scala3Version = "3.1.3"
+val scala3Version = "3.4.2"
 val scala213Version = "2.13.10"
 // val scala212Version = "2.12.17"
 lazy val supportedScalaVersions = List(scala3Version, scala213Version)
@@ -67,7 +67,8 @@ lazy val prettifiedBase = (project in file("modules/" + baseName)).settings(
   name := baseName,
   commonSettings,
   libraryDependencies ++= Vector(
-    scalaTest % Test
+    scalaTest % Test,
+    "org.scalamock" %% "scalamock" % "6.0.0" % Test
   )
 )
 

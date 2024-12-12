@@ -4,7 +4,8 @@ import uk.org.devthings.scala.prettification.caseclass.action.{
   CaseClassPrettifierAction,
   CharacterPrettifierAction,
   IterablePrettifierAction,
-  PrettificationAction
+  PrettificationAction,
+  TemporalPrettifierAction
 }
 
 import scala.annotation.tailrec
@@ -14,6 +15,7 @@ object CaseClassPrettifier {
     new CaseClassPrettifier(
       List(
         new IterablePrettifierAction(),
+        new TemporalPrettifierAction(),
         new CharacterPrettifierAction(),
         new CaseClassPrettifierAction()
       ) ++ prettifiers
@@ -21,7 +23,6 @@ object CaseClassPrettifier {
   }
 
   val default: CaseClassPrettifier = create()
-
 }
 
 class CaseClassPrettifier(prettifiers: List[PrettificationAction]) {

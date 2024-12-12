@@ -3,6 +3,7 @@ package uk.org.devthings.scala.prettification.caseclass
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
+import java.time.LocalDate
 import scala.collection.mutable
 case class SinglePrimitive(fieldName1: Int)
 case class ListOfPrimitives(fieldName1: List[Int])
@@ -10,7 +11,7 @@ case class MultiBasic(fieldName1: Int, fieldName2: String)
 case class NestedBasic(fieldName1: Int, fieldName2: SinglePrimitive)
 case class NestedOptionalCaseClass(fieldName1: Int, fieldName2: Option[SinglePrimitive])
 case class NestedOptionalInt(fieldName1: Int, fieldName2: Option[Int])
-case class NestedMultiLevel(fieldName1: Int, fieldName2: NestedBasic)
+case class NestedMultiLevel(fieldName1: LocalDate, fieldName2: NestedBasic)
 
 sealed abstract case class AbstractCaseClass(value: Int, value2: NestedOptionalCaseClass)
 
@@ -193,12 +194,12 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
 
     "handle multi level indentation" in {
       val result =
-        prettifier2.prettify(NestedMultiLevel(4, NestedBasic(4, SinglePrimitive(4))))
+        prettifier2.prettify(NestedMultiLevel(LocalDate.EPOCH, NestedBasic(4, SinglePrimitive(4))))
 
       result shouldBe
         """
           |NestedMultiLevel(
-          |  fieldName1 = 4,
+          |  fieldName1 = LocalDate.parse("1970-01-01"),
           |  fieldName2 = NestedBasic(
           |    fieldName1 = 4,
           |    fieldName2 = SinglePrimitive(
