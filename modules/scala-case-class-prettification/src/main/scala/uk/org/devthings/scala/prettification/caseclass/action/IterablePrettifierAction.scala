@@ -2,6 +2,7 @@ package uk.org.devthings.scala.prettification.caseclass.action
 
 import uk.org.devthings.scala.prettification.caseclass.CaseClassPrettifier
 
+import scala.collection.immutable.ListMap
 import scala.collection.mutable
 
 class IterablePrettifierAction extends PrettificationAction {
@@ -43,6 +44,7 @@ class IterablePrettifierAction extends PrettificationAction {
       case _: Seq[_] => "Seq"
       case _: mutable.ArraySeq[_] => "mutable.ArraySeq"
       case _: mutable.Seq[_] => "mutable.Seq"
+      case _: ListMap[_, _] => "ListMap"
       case _ => "Iterable"
     }
 }
