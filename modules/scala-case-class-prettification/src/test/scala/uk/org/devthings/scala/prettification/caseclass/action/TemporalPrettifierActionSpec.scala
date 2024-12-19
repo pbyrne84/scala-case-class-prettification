@@ -15,21 +15,21 @@ class TemporalPrettifierActionSpec extends AnyFreeSpecLike with Matchers with Mo
   "attempt" - {
     "should render LocalDate" in {
       val maybeRendered = dateAction.attempt(LocalDate.EPOCH, caseClassPrettifier)
-      maybeRendered shouldBe Some("""
+      maybeRendered shouldBe SuccessfulPrettification("""
           |LocalDate.parse("1970-01-01")
           |""".stripMargin.trim)
     }
 
     "should render LocalDateDateTime" in {
       val maybeRendered = dateAction.attempt(LocalDateTime.MIN, caseClassPrettifier)
-      maybeRendered shouldBe Some("""
+      maybeRendered shouldBe SuccessfulPrettification("""
           |LocalDateTime.parse("-999999999-01-01T00:00")
           |""".stripMargin.trim)
     }
 
     "should render Instant" in {
       val maybeRendered = dateAction.attempt(Instant.EPOCH, caseClassPrettifier)
-      maybeRendered shouldBe Some("""
+      maybeRendered shouldBe SuccessfulPrettification("""
           |Instant.parse("1970-01-01T00:00:00Z")
           |""".stripMargin.trim)
     }
@@ -46,7 +46,7 @@ class TemporalPrettifierActionSpec extends AnyFreeSpecLike with Matchers with Mo
 
       val zonedDateTime = ZonedDateTime.now(clock)
       val maybeRendered = dateAction.attempt(zonedDateTime, caseClassPrettifier)
-      maybeRendered shouldBe Some("""
+      maybeRendered shouldBe SuccessfulPrettification("""
           |ZonedDateTime.parse("1970-01-01T00:00Z[UTC]")
           |""".stripMargin.trim)
     }

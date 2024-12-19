@@ -2,6 +2,10 @@ package uk.org.devthings.scala.prettification.caseclass.action
 
 import uk.org.devthings.scala.prettification.caseclass.CaseClassPrettifier
 
+sealed trait PrettificationAttemptResult
+case object SkippedPrettificationAsNotRelevant extends PrettificationAttemptResult
+case class SuccessfulPrettification(result: String) extends PrettificationAttemptResult
+
 trait PrettificationAction {
 
   implicit class StringExtension(s: String) {
@@ -19,5 +23,5 @@ trait PrettificationAction {
     }
   }
 
-  def attempt(value: Any, prettifier: CaseClassPrettifier): Option[String]
+  def attempt(value: Any, prettifier: CaseClassPrettifier): PrettificationAttemptResult
 }
