@@ -5,6 +5,8 @@ import uk.org.devthings.scala.prettification.caseclass.action.{
   CharacterPrettifierAction,
   IterablePrettifierAction,
   PrettificationAction,
+  SkippedPrettificationAsNotRelevant,
+  SuccessfulPrettification,
   TemporalPrettifierAction
 }
 
@@ -47,8 +49,8 @@ class CaseClassPrettifier(prettifiers: List[PrettificationAction]) {
       remaining: List[PrettificationAction]
   ): String = {
     currentPrettifier.attempt(value, this) match {
-      case Some(renderedOutput: String) => renderedOutput
-      case None =>
+      case SuccessfulPrettification(renderedOutput: String) => renderedOutput
+      case SkippedPrettificationAsNotRelevant =>
         remaining match {
           case ::(head: PrettificationAction, next) =>
             attemptCurrentPrettifier(value, head, next)

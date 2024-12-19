@@ -6,7 +6,7 @@ import scala.collection.immutable.ListMap
 import scala.collection.mutable
 
 class IterablePrettifierAction extends PrettificationAction {
-  override def attempt(value: Any, prettifier: CaseClassPrettifier): Option[String] = {
+  override def attempt(value: Any, prettifier: CaseClassPrettifier): PrettificationAttemptResult = {
 
     value match {
       case iterable: Iterable[_] =>
@@ -19,7 +19,7 @@ class IterablePrettifierAction extends PrettificationAction {
           .mkString(",\n")
           .leftIndent(2)
 
-        Some(s"$stringType(\n$renderedItems\n)")
+        SuccessfulPrettification(s"$stringType(\n$renderedItems\n)")
 
       case instances: Array[_] =>
         val stringType = getStringType(instances)
@@ -31,9 +31,10 @@ class IterablePrettifierAction extends PrettificationAction {
           .mkString(",\n")
           .leftIndent(2)
 
-        Some(s"$stringType(\n$renderedItems\n)")
+        SuccessfulPrettification(s"$stringType(\n$renderedItems\n)")
 
-      case _ => None
+      case _ =>
+        SkippedPrettificationAsNotRelevant
     }
   }
 

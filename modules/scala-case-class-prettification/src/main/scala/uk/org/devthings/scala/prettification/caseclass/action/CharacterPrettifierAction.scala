@@ -3,17 +3,17 @@ package uk.org.devthings.scala.prettification.caseclass.action
 import uk.org.devthings.scala.prettification.caseclass.CaseClassPrettifier
 
 class CharacterPrettifierAction extends PrettificationAction {
-  override def attempt(value: Any, prettifier: CaseClassPrettifier): Option[String] = {
+  override def attempt(value: Any, prettifier: CaseClassPrettifier): PrettificationAttemptResult = {
 
     value match {
       case string: String =>
-        Some(s""""$string"""")
+        SuccessfulPrettification(s""""$string"""")
 
       case char: Char =>
-        Some(s"'$char'")
+        SuccessfulPrettification(s"'$char'")
 
       case _ =>
-        None
+        SkippedPrettificationAsNotRelevant
     }
   }
 

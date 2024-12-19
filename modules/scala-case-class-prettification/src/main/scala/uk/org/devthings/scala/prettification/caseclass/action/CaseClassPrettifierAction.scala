@@ -4,19 +4,19 @@ import uk.org.devthings.scala.prettification.caseclass.CaseClassPrettifier
 
 class CaseClassPrettifierAction extends PrettificationAction {
 
-  override def attempt(value: Any, prettifier: CaseClassPrettifier): Option[String] = {
+  override def attempt(value: Any, prettifier: CaseClassPrettifier): PrettificationAttemptResult = {
     value match {
       case option: Some[_] =>
         val prettifiedContents: String = createSomeResult(prettifier, option)
 
-        Some(
+        SuccessfulPrettification(
           s"""
           |Some($prettifiedContents)
           |""".stripMargin.trim
         )
 
       case None =>
-        Some("None")
+        SuccessfulPrettification("None")
 
       case product: Product =>
         val renderedFields = for (index <- 0 until product.productArity) yield {
@@ -25,13 +25,14 @@ class CaseClassPrettifierAction extends PrettificationAction {
           s"$name = ${prettifier.prettify(elementValue)}"
         }
 
-        Some(
+        SuccessfulPrettification(
           s"""${calculateClassName(product)}(
            |${renderedFields.mkString(",\n").stripSuffix(",\n").leftIndent(2)}
            |)""".stripMargin
         )
 
-      case _ => None
+      case _ =>
+        SkippedPrettificationAsNotRelevant
     }
   }
 
