@@ -4,7 +4,7 @@ import org.scalactic.Prettifier
 import uk.org.devthings.scala.prettification.caseclass.CaseClassPrettifier
 
 object Prettifiers {
-  val caseClassPrettifier: CaseClassPrettifier = CaseClassPrettifier.default
+  private val caseClassPrettifier: CaseClassPrettifier = CaseClassPrettifier.default
 
   implicit val prettifier: Prettifier = Prettifier.apply {
     case anyRef: AnyRef =>

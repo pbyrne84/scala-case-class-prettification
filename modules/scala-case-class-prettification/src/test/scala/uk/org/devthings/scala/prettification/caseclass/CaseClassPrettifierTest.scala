@@ -19,17 +19,17 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
 
   "GenericPrettifier" should {
 
-    val prettifier2 = CaseClassPrettifier.create()
+    val prettifier = CaseClassPrettifier.default
 
     "handle a null safely for badly behaving apis" in {
-      prettifier2.prettify(null) shouldBe
+      prettifier.prettify(null) shouldBe
         """
           |null
         """.stripMargin.trim
     }
 
     "format a list with 1 item which is an int" in {
-      prettifier2.prettify(List(4)) shouldBe
+      prettifier.prettify(List(4)) shouldBe
         """
           |List(
           |  4
@@ -38,7 +38,7 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
     }
 
     "format a list with 1 item which is a string" in {
-      prettifier2.prettify(List("banana")) shouldBe
+      prettifier.prettify(List("banana")) shouldBe
         """
           |List(
           |  "banana"
@@ -47,7 +47,7 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
     }
 
     "format a list with multiple items" in {
-      prettifier2.prettify(List(4, 5, 6)) shouldBe
+      prettifier.prettify(List(4, 5, 6)) shouldBe
         """
           |List(
           |  4,
@@ -58,7 +58,7 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
     }
 
     "format a vector with multiple items" in {
-      prettifier2.prettify(Vector(4, 5, 6)) shouldBe
+      prettifier.prettify(Vector(4, 5, 6)) shouldBe
         """
           |Vector(
           |  4,
@@ -69,7 +69,7 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
     }
 
     "format an mutable array with multiple items" in {
-      prettifier2.prettify(Array(4, 5, 6)) shouldBe
+      prettifier.prettify(Array(4, 5, 6)) shouldBe
         """
           |mutable.ArraySeq(
           |  4,
@@ -80,7 +80,7 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
     }
 
     "format an mutable seq with multiple items" in {
-      prettifier2.prettify(mutable.Seq(4, 5, 6)) shouldBe
+      prettifier.prettify(mutable.Seq(4, 5, 6)) shouldBe
         """
           |mutable.Seq(
           |  4,
@@ -91,7 +91,7 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
     }
 
     "format a simple case class with a single primitive" in {
-      val str = prettifier2.prettify(SinglePrimitive(fieldName1 = 4))
+      val str = prettifier.prettify(SinglePrimitive(fieldName1 = 4))
       str shouldBe
         """
           |SinglePrimitive(
@@ -101,7 +101,7 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
     }
 
     "format a list of simple case class with a single primitive" in {
-      prettifier2.prettify(List(SinglePrimitive(4))) shouldBe
+      prettifier.prettify(List(SinglePrimitive(4))) shouldBe
         """
           |List(
           |  SinglePrimitive(
@@ -112,7 +112,7 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
     }
 
     "format a simple case class with a list of primitives" in {
-      prettifier2.prettify(ListOfPrimitives(List(1, 4))) shouldBe
+      prettifier.prettify(ListOfPrimitives(List(1, 4))) shouldBe
         """
           |ListOfPrimitives(
           |  fieldName1 = List(
@@ -124,7 +124,7 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
     }
 
     "format a simple case class multiple single values" in {
-      prettifier2.prettify(MultiBasic(4, "bananana"))
+      prettifier.prettify(MultiBasic(4, "bananana"))
       """
         |MultiBasic(
         |  fieldName1 = 4,
@@ -134,7 +134,7 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
     }
 
     "format a simple case class multiple single values where one value is null" in {
-      prettifier2.prettify(MultiBasic(4, null)) shouldBe
+      prettifier.prettify(MultiBasic(4, null)) shouldBe
         """
           |MultiBasic(
           |  fieldName1 = 4,
@@ -144,7 +144,7 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
     }
 
     "format a simple nested case class multiple single values" in {
-      prettifier2.prettify(NestedBasic(4, SinglePrimitive(4))) shouldBe
+      prettifier.prettify(NestedBasic(4, SinglePrimitive(4))) shouldBe
         """
           |NestedBasic(
           |  fieldName1 = 4,
@@ -156,7 +156,7 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
     }
 
     "format a simple nested case class where one value is an option with a case class as a value" in {
-      val actual = prettifier2.prettify(NestedOptionalCaseClass(4, Some(SinglePrimitive(4))))
+      val actual = prettifier.prettify(NestedOptionalCaseClass(4, Some(SinglePrimitive(4))))
       actual shouldBe
         """
           |NestedOptionalCaseClass(
@@ -171,7 +171,7 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
     }
 
     "format a simple nested case class where one value is an optional int" in {
-      val actual = prettifier2.prettify(NestedOptionalInt(4, Some(6)))
+      val actual = prettifier.prettify(NestedOptionalInt(4, Some(6)))
       println(actual)
       actual shouldBe
         """
@@ -183,7 +183,7 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
     }
 
     "format a simple nested case class where one value is an option with a value of None" in {
-      prettifier2.prettify(NestedOptionalCaseClass(4, None)) shouldBe
+      prettifier.prettify(NestedOptionalCaseClass(4, None)) shouldBe
         """
           |NestedOptionalCaseClass(
           |  fieldName1 = 4,
@@ -194,7 +194,7 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
 
     "handle multi level indentation" in {
       val result =
-        prettifier2.prettify(NestedMultiLevel(LocalDate.EPOCH, NestedBasic(4, SinglePrimitive(4))))
+        prettifier.prettify(NestedMultiLevel(LocalDate.EPOCH, NestedBasic(4, SinglePrimitive(4))))
 
       result shouldBe
         """
@@ -212,7 +212,7 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
 
     "handle a list of tuples" in {
       val result =
-        prettifier2.prettify(List("a" -> 2, "b" -> "44"))
+        prettifier.prettify(List("a" -> 2, "b" -> "44"))
 
       result shouldBe
         """
@@ -231,7 +231,7 @@ class CaseClassPrettifierTest extends AnyWordSpec with Matchers {
 
     "cope with instances of abstract case class" in {
       val instantiatingBlockingCaseClass = new AbstractCaseClass(22, NestedOptionalCaseClass(4, None)) {}
-      val result = prettifier2.prettify(instantiatingBlockingCaseClass)
+      val result = prettifier.prettify(instantiatingBlockingCaseClass)
 
       result shouldBe
         """

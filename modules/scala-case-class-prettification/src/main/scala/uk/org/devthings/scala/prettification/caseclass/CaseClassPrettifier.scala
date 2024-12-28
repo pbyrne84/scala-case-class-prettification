@@ -13,18 +13,18 @@ import uk.org.devthings.scala.prettification.caseclass.action.{
 import scala.annotation.tailrec
 
 object CaseClassPrettifier {
-  def create(prettifiers: List[PrettificationAction] = List.empty): CaseClassPrettifier = {
-    new CaseClassPrettifier(
-      List(
-        new IterablePrettifierAction(),
-        new TemporalPrettifierAction(),
-        new CharacterPrettifierAction(),
-        new CaseClassPrettifierAction()
-      ) ++ prettifiers
+  val default: CaseClassPrettifier = create(
+    List(
+      new IterablePrettifierAction(),
+      new TemporalPrettifierAction(),
+      new CharacterPrettifierAction(),
+      new CaseClassPrettifierAction()
     )
-  }
+  )
 
-  val default: CaseClassPrettifier = create()
+  def create(prettifiers: List[PrettificationAction] = List.empty): CaseClassPrettifier = {
+    new CaseClassPrettifier(prettifiers)
+  }
 }
 
 class CaseClassPrettifier(prettifiers: List[PrettificationAction]) {
