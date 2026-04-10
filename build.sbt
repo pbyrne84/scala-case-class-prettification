@@ -9,9 +9,6 @@ lazy val supportedScalaVersions = List(scala3Version, scala213Version)
 
 scalaVersion := scala3Version
 
-ThisBuild / sonatypeCredentialHost := "s01.oss.sonatype.org"
-sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
-
 inThisBuild(
   List(
     organization := "uk.org.devthings",
