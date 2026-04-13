@@ -22,25 +22,28 @@ jobs:
             echo "PGP_PASSPHRASE  does not exist"
           else
             echo "PGP_PASSPHRASE  exists"
+          fi
           
           if [[ -z "${{ secrets.PGP_SECRET }}" ]]; then
             echo "PGP_SECRET does not exist"
           else
             echo "PGP_SECRET exists"
+          fi
           
           if [[ -z "${{ secrets.SONATYPE_PASSWORD }}" ]]; then
             echo "SONATYPE_PASSWORD does not exist"
           else
             echo "SONATYPE_PASSWORD exists"
+          fi
           
           if [[ -z "${{ secrets.SONATYPE_USERNAME }}" ]]; then
             echo "SONATYPE_USERNAME does not exist"
           else
             echo "SONATYPE_USERNAME exists"
-
-      - run: sbt ci-release
-        env:
-          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
-          PGP_SECRET: ${{ secrets.PGP_SECRET }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          fi
+#      - run: sbt ci-release
+#        env:
+#          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+#          PGP_SECRET: ${{ secrets.PGP_SECRET }}
+#          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+#          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
