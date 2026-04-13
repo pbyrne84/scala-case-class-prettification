@@ -17,6 +17,27 @@ jobs:
           java-version: 17
           cache: sbt
       - uses: sbt/setup-sbt@v1
+      - run: |
+          if [[ -z "${{ secrets.PGP_PASSPHRASE }}" ]]; then
+            echo "PGP_PASSPHRASE  does not exist"
+          else
+            echo "PGP_PASSPHRASE  exists"
+          
+          if [[ -z "${{ secrets.PGP_SECRET }}" ]]; then
+            echo "PGP_SECRET does not exist"
+          else
+            echo "PGP_SECRET exists"
+          
+          if [[ -z "${{ secrets.SONATYPE_PASSWORD }}" ]]; then
+            echo "SONATYPE_PASSWORD does not exist"
+          else
+            echo "SONATYPE_PASSWORD exists"
+          
+          if [[ -z "${{ secrets.SONATYPE_USERNAME }}" ]]; then
+            echo "SONATYPE_USERNAME does not exist"
+          else
+            echo "SONATYPE_USERNAME exists"
+
       - run: sbt ci-release
         env:
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
